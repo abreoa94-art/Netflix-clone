@@ -75,3 +75,7 @@
     display: block;
     transition: all 300ms ease;
 }
+
+.nav__dark{
+    background: #141414;
+}
