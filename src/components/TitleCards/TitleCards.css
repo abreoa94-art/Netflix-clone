@@ -28,10 +28,38 @@
 }
 
 .card__list .card p{
-    position: absolute;
     border: 10px;
     right: 10px;
-    text-decoration: none;
     color: white;
+    text-decoration: none !important;
 }
 
+@media(max-width:800px){
+    .title__cards{
+        margin-top: 20px;
+        margin-bottom:0 ;
+    }
+    .title__cards h2{
+        font-size: 20px;
+    }
+    .card__list img{
+        width: 200px;
+    }
+    .card__list p{
+        font-size: 12px;
+    }
+    
+}
+@media(max-width:500px){
+   
+    .title__cards h2{
+        font-size: 15px;
+    }
+    .card__list img{
+        width: 165px;
+    }
+    .card__list p{
+        font-size: 10px;
+    }
+    
+}
