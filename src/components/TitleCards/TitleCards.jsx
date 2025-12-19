@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./TitleCards.css";
-import cards_data from "../../assets/cards/Cards_data";
 import { Link } from "react-router-dom";
 
 
@@ -11,13 +10,13 @@ const TitleCards = ({ title, category }) => {
  
 const [apiData, setApiData]= useState ([])  
 const cardsRef = useRef()
-const options = {
+const options = useMemo(() => ({
   method: 'GET',
   headers: {
     accept: 'application/json',
     Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZTdmNjlhZTZiZDQ5MWFiM2UzYmEwZDkxZGFlNTY5OCIsIm5iZiI6MTc2MDcyMDg4OC43MzQwMDAyLCJzdWIiOiI2OGYyNzdmODU0ZmJlMDczYjRkZjc0MjEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.FLGAwukzSTQAa7d--fPT5nMTFfnDfDg-b-0YpRri75s'
   }
-};
+}), [])
 
 
 
@@ -27,12 +26,19 @@ const handleWheel = (event)=>{
 }
 
 useEffect(() => {
-  fetch(`https://api.themoviedb.org/3/movie/${category? category:"now_playing"}?language=en-US&page=1`, options)
-  .then(res => res.json())
-  .then(res => setApiData(res.results))
-  .catch(err => console.error(err));
+  fetch(`https://api.themoviedb.org/3/movie/${category ? category : "now_playing"}?language=en-US&page=1`, options)
+    .then(res => res.json())
+    .then(res => setApiData(res.results || []))
+    .catch(err => console.error(err));
+}, [category, options])
 
-  cardsRef.current.addEventListener('wheel', handleWheel)
+useEffect(() => {
+  const el = cardsRef.current
+  if (!el) return
+  el.addEventListener('wheel', handleWheel, { passive: false })
+  return () => {
+    el.removeEventListener('wheel', handleWheel)
+  }
 }, [])
 
     

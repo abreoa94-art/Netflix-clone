@@ -25,6 +25,9 @@
 
 .card__list .card{
     position: relative;
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
 }
 
 .card__list .card p{

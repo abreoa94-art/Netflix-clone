@@ -1,4 +1,4 @@
-import React, { use, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './Navbar.css'
 import logo from '../../assets/logo.png'
 import search_icon from '../../assets/search_icon.svg'
@@ -12,13 +12,18 @@ const Navbar = () => {
 const navRef = useRef()
 
 useEffect (() => {
-  window.addEventListener('scroll', () => {
-    if(window.scrollY >= 80){
-      navRef.current.classList.add('nav__dark')
-    }else {
-      navRef.current.classList.remove('nav__dark')
+  const onScroll = () => {
+    if (window.scrollY >= 80) {
+      navRef.current && navRef.current.classList.add('nav__dark')
+    } else {
+      navRef.current && navRef.current.classList.remove('nav__dark')
     }
-  })
+  }
+
+  window.addEventListener('scroll', onScroll)
+  return () => {
+    window.removeEventListener('scroll', onScroll)
+  }
 }, [])
 
   return (
